@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.post("/mine", (req, res) => {
   const block = bc.addBock(req.body.data);
   console.log(`New Block added ${block.toString()}`);
-
+  p2pServer.syncChain();
   res.redirect("/blocks");
 });
 app.get("/blocks", (req, res) => {
