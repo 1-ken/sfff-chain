@@ -13,5 +13,8 @@ class chainUtil {
   static hash(data) {
     return SHA256(JSON.stringify(data)).toString();
   }
+  static VerifySignature(publicKey, signature, dataHash) {
+    return ec.keyFromPublic(publicKey, "hex").verify(dataHash,signature);
+  }
 }
 module.exports = chainUtil;
