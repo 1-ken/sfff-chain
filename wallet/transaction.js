@@ -1,3 +1,4 @@
+const Wallet = require(".");
 const chainUtil = require("../chain-util");
 
 class Transaction {
@@ -21,8 +22,16 @@ class Transaction {
         { amount, address: recipient },
       ]
     );
+    Transaction.signTransaction(transaction, senderWallet);
     return transaction;
   }
-  
+  static signTransaction(transaction, senderWallet) {
+    transaction.input = {
+      timestamp: Date.now(),
+      amount: senderWallet.balance,
+      address: senderWallet.publicKey,
+      signature: senderWallet.sign(chainUtil.hash(transaction.outputs)),
+    };
+  }
 }
-module.exports = Transaction
+module.exports = Transaction;
